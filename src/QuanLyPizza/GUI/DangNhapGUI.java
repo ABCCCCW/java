@@ -25,20 +25,26 @@ public class DangNhapGUI extends JFrame {
     }
 
     private void xuLyTaiKhoanDaGhiNho() {
+        resetFields();  // Xóa hết thông tin cũ mỗi lần mở lại màn hình đăng nhập
+
         DangNhapBUS dangNhapBUS = new DangNhapBUS();
         String line = dangNhapBUS.getTaiKhoanGhiNho();
+
         try {
-            String[] arr = line.split(" | ");
-            ckbRemember.setSelected(true);
-            txtUser.setText(arr[0]);
-            txtPassword.setText(arr[2]);
-            txtUser.requestFocus();
+            if (line != null && !line.isEmpty()) {
+                String[] arr = line.split(" | ");
+                ckbRemember.setSelected(false);
+                txtUser.setText(arr[0]); 
+                txtPassword.setText(arr[2]);  
+                txtUser.requestFocus();  
+            }
         } catch (Exception e) {
             txtUser.setText("");
             txtPassword.setText("");
             txtUser.requestFocus();
         }
     }
+
 
     private JLabel btnExit, btnLogin, btnForgot;
     private JTextField txtUser;
@@ -231,8 +237,14 @@ public class DangNhapGUI extends JFrame {
             gui.showWindow();
         }
     }
+    private void resetFields() {
+    txtUser.setText("");  // Xóa thông tin tài khoản cũ
+    txtPassword.setText("");  // Xóa mật khẩu cũ
+    ckbRemember.setSelected(false);  // Đặt lại trạng thái của checkbox "Ghi nhớ đăng nhập"
+}
 
     public void showWindow() {
+        resetFields();
         Image icon = Toolkit.getDefaultToolkit().getImage("image/ManagerUI/icon-app.png");
         this.setIconImage(icon);
         this.setVisible(true);

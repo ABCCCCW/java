@@ -5,6 +5,7 @@
  */
 package QuanLyPizza.DAO;
 
+import QuanLyPizza.DAO.MyConnect;
 import QuanLyPizza.DTO.KhachHang;
 
 import java.sql.PreparedStatement;

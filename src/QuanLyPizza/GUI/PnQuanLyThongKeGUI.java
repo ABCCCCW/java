@@ -153,7 +153,7 @@ public class PnQuanLyThongKeGUI extends JPanel {
         btn_filter = new JButton("Chi tiết");
         btn_filter.setFont(new Font("Tahoma", Font.PLAIN, 18));
         btn_filter.setBounds((w / 2 - 100 / 2) + 140, 560, 100, 35);
-//        pnThongKeTong.add(btn_filter);
+       // pnThongKeTong.add(btn_filter);
 
         JLabel lblBackgroundBang = new JLabel(new ImageIcon("image/ManagerUI/bangThongKe.png"));
         lblBackgroundBang.setBounds(98, 610, 834, 189);

@@ -1,31 +1,67 @@
 package QuanLyPizza.DAO;
 
 import QuanLyPizza.DTO.HoaDon;
-
 import java.sql.*;
 import java.util.ArrayList;
 
 public class HoaDonDAO {
+
     public ArrayList<HoaDon> getListHoaDon() {
         ArrayList<HoaDon> dshd = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM hoadon";
+            String sql = "SELECT hd.*, CONCAT(kh.Ho, ' ', kh.Ten) AS HoTenKH, CONCAT(nv.Ho, ' ', nv.Ten) AS HoTenNV " +
+                         "FROM hoadon hd " +
+                         "JOIN KhachHang kh ON hd.MaKH = kh.MaKH " +
+                         "JOIN NhanVien nv ON hd.MaNV = nv.MaNV";
             Statement stmt = MyConnect.conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 HoaDon hd = new HoaDon();
-                hd.setMaHD(rs.getInt(1));
-                hd.setMaKH(rs.getInt(2));
-                hd.setMaNV(rs.getInt(3));
-                hd.setNgayLap(rs.getDate(4));
-                hd.setTongTien(rs.getInt(5));
-                hd.setGhiChu(rs.getString(6));
+                hd.setMaHD(rs.getInt("MaHD"));
+                hd.setMaKH(rs.getInt("MaKH"));
+                hd.setMaNV(rs.getInt("MaNV"));
+                hd.setNgayLap(rs.getDate("NgayLap"));
+                hd.setTongTien(rs.getInt("TongTien"));
+                hd.setGhiChu(rs.getString("GhiChu"));
+                hd.setTenKhachHang(rs.getString("HoTenKH"));
+                hd.setTenNhanVien(rs.getString("HoTenNV"));
                 dshd.add(hd);
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
             return null;
         }
         return dshd;
+    }
+
+    public String getTenKhachHang(int maKH) {
+        try {
+            String sql = "SELECT CONCAT(Ho, ' ', Ten) AS HoTen FROM KhachHang WHERE MaKH = ?";
+            PreparedStatement prep = MyConnect.conn.prepareStatement(sql);
+            prep.setInt(1, maKH);
+            ResultSet rs = prep.executeQuery();
+            if (rs.next()) {
+                return rs.getString("HoTen");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getTenNhanVien(int maNV) {
+        try {
+            String sql = "SELECT CONCAT(Ho, ' ', Ten) AS HoTen FROM NhanVien WHERE MaNV = ?";
+            PreparedStatement prep = MyConnect.conn.prepareStatement(sql);
+            prep.setInt(1, maNV);
+            ResultSet rs = prep.executeQuery();
+            if (rs.next()) {
+                return rs.getString("HoTen");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     public boolean addHoaDon(HoaDon hd) {
@@ -64,7 +100,11 @@ public class HoaDonDAO {
 
     public ArrayList<HoaDon> getListHoaDon(Date dateMin, Date dateMax) {
         try {
-            String sql = "SELECT * FROM hoadon WHERE NgayLap BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)";
+            String sql = "SELECT hd.*, CONCAT(kh.Ho, ' ', kh.Ten) AS HoTenKH, CONCAT(nv.Ho, ' ', nv.Ten) AS HoTenNV " +
+                         "FROM hoadon hd " +
+                         "JOIN KhachHang kh ON hd.MaKH = kh.MaKH " +
+                         "JOIN NhanVien nv ON hd.MaNV = nv.MaNV " +
+                         "WHERE NgayLap BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)";
             PreparedStatement pre = MyConnect.conn.prepareStatement(sql);
             pre.setDate(1, dateMin);
             pre.setDate(2, dateMax);
@@ -74,12 +114,14 @@ public class HoaDonDAO {
 
             while (rs.next()) {
                 HoaDon hd = new HoaDon();
-                hd.setMaHD(rs.getInt(1));
-                hd.setMaKH(rs.getInt(2));
-                hd.setMaNV(rs.getInt(3));
-                hd.setNgayLap(rs.getDate(4));
-                hd.setTongTien(rs.getInt(5));
-                hd.setGhiChu(rs.getString(6));
+                hd.setMaHD(rs.getInt("MaHD"));
+                hd.setMaKH(rs.getInt("MaKH"));
+                hd.setMaNV(rs.getInt("MaNV"));
+                hd.setNgayLap(rs.getDate("NgayLap"));
+                hd.setTongTien(rs.getInt("TongTien"));
+                hd.setGhiChu(rs.getString("GhiChu"));
+                hd.setTenKhachHang(rs.getString("HoTenKH"));
+                hd.setTenNhanVien(rs.getString("HoTenNV"));
                 dshd.add(hd);
             }
             return dshd;

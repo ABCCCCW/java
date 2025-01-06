@@ -37,8 +37,11 @@ public class HoaDonBUS {
     public HoaDon getHoaDon(String maHD) {
         int ma = Integer.parseInt(maHD);
         for (HoaDon hd : listHoaDon) {
-            if (hd.getMaHD() == ma)
+            if (hd.getMaHD() == ma) {
+                hd.setTenKhachHang(hoaDonDAO.getTenKhachHang(hd.getMaKH()));
+                hd.setTenNhanVien(hoaDonDAO.getTenNhanVien(hd.getMaNV()));
                 return hd;
+            }
         }
         return null;
     }
@@ -49,8 +52,11 @@ public class HoaDonBUS {
             int maxPrice = Integer.parseInt(max);
             ArrayList<HoaDon> dshd = new ArrayList<>();
             for (HoaDon hd : listHoaDon) {
-                if (hd.getTongTien() > minPrice && hd.getTongTien() < maxPrice)
+                if (hd.getTongTien() > minPrice && hd.getTongTien() < maxPrice) {
+                    hd.setTenKhachHang(hoaDonDAO.getTenKhachHang(hd.getMaKH()));
+                    hd.setTenNhanVien(hoaDonDAO.getTenNhanVien(hd.getMaNV()));
                     dshd.add(hd);
+                }
             }
             return dshd;
         } catch (Exception e) {
@@ -69,6 +75,10 @@ public class HoaDonBUS {
             java.sql.Date dateMax = new java.sql.Date(maxDate.getTime());
 
             ArrayList<HoaDon> dshd = hoaDonDAO.getListHoaDon(dateMin, dateMax);
+            for (HoaDon hd : dshd) {
+                hd.setTenKhachHang(hoaDonDAO.getTenKhachHang(hd.getMaKH()));
+                hd.setTenNhanVien(hoaDonDAO.getTenNhanVien(hd.getMaNV()));
+            }
             return dshd;
         } catch (Exception e) {
             new MyDialog("Hãy nhập khoảng ngày hợp lệ!", MyDialog.ERROR_DIALOG);
