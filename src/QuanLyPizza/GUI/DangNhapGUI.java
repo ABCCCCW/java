@@ -18,7 +18,6 @@ public class DangNhapGUI extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setUndecorated(true);
-        this.setBackground(new Color(0, 0, 0, 0));
         addControls();
         xuLyTaiKhoanDaGhiNho();
         addEvents();
@@ -72,7 +71,8 @@ public class DangNhapGUI extends JFrame {
 
         Font fontTXT = new Font("", Font.BOLD, 18);
         txtUser = new JTextField();
-        txtUser.setBackground(new Color(0, 0, 0, 0f));
+        txtUser.setOpaque(false);
+        txtUser.setBackground(new Color(0, 0, 0, 0));
         txtUser.setBorder(BorderFactory.createEmptyBorder());
         txtUser.setForeground(Color.WHITE);
         txtUser.setFont(fontTXT);
@@ -81,7 +81,8 @@ public class DangNhapGUI extends JFrame {
 
         txtPassword = new JPasswordField();
         txtPassword.setEchoChar('•');
-        txtPassword.setBackground(new Color(0, 0, 0, 0f));
+        txtPassword.setOpaque(false);
+        txtPassword.setBackground(new Color(0, 0, 0, 0));
         txtPassword.setBorder(BorderFactory.createEmptyBorder());
         txtPassword.setForeground(Color.WHITE);
         txtPassword.setFont(fontTXT);

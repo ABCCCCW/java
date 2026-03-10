@@ -497,14 +497,14 @@ public class PnQuanLyBanHangGUI extends JPanel {
         JPanel pnListHoaDon = new TransparentPanel();
         listHoaDon = new JList<>();
         listHoaDon.setFont(font);
-        listHoaDon.setPreferredSize(new Dimension(
-                (int) pnCTHoaDonLeft.getPreferredSize().getWidth() - 22,
-                400));
+        // Để JList tự động mở rộng theo data (không set cứng PreferredSize) mới có thể cuộn được
         loadDataListHoaDon();
         JScrollPane scrHoaDon = new JScrollPane(listHoaDon,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrHoaDon.setPreferredSize(listHoaDon.getPreferredSize());
+        scrHoaDon.setPreferredSize(new Dimension(
+                (int) pnCTHoaDonLeft.getPreferredSize().getWidth() - 22,
+                400));
         pnListHoaDon.add(scrHoaDon);
         pnCTHoaDonLeft.add(pnListHoaDon);
 
@@ -954,11 +954,12 @@ public class PnQuanLyBanHangGUI extends JPanel {
     private void xuLyClickTblBanHang() {
         int row = tblBanHang.getSelectedRow();
         if (row > -1) {
-            String ma = tblBanHang.getValueAt(row, 0) + "";
-            String ten = tblBanHang.getValueAt(row, 1) + "";
-            String donGia = tblBanHang.getValueAt(row, 2) + "";
-            String anh = tblBanHang.getValueAt(row, 5) + "";
-            int soLuong = Integer.parseInt(tblBanHang.getValueAt(row, 3) + "");
+            int modelRow = tblBanHang.convertRowIndexToModel(row);
+            String ma = tblBanHang.getModel().getValueAt(modelRow, 0) + "";
+            String ten = tblBanHang.getModel().getValueAt(modelRow, 1) + "";
+            String donGia = tblBanHang.getModel().getValueAt(modelRow, 2) + "";
+            String anh = tblBanHang.getModel().getValueAt(modelRow, 5) + "";
+            int soLuong = Integer.parseInt(tblBanHang.getModel().getValueAt(modelRow, 3) + "");
             if (soLuong < 1) {
                 MyDialog dlg = new MyDialog("Sản phẩm đã hết hàng", MyDialog.ERROR_DIALOG);
                 return;
@@ -1020,7 +1021,8 @@ public class PnQuanLyBanHangGUI extends JPanel {
         String ten = txtTenSPBanHang.getText();
         String donGia = txtDonGiaBanHang.getText();
         int soLuong = Integer.parseInt(spnSoLuongBanHang.getValue() + "");
-        int soLuongConLai = Integer.parseInt(tblBanHang.getValueAt(tblBanHang.getSelectedRow(), 3) + "");
+        int modelRow = tblBanHang.convertRowIndexToModel(tblBanHang.getSelectedRow());
+        int soLuongConLai = Integer.parseInt(tblBanHang.getModel().getValueAt(modelRow, 3) + "");
 
         if (soLuong > soLuongConLai || soLuongConLai <= 0) {
             new MyDialog("Sản phẩm đã hết hàng", MyDialog.ERROR_DIALOG);
@@ -1040,7 +1042,7 @@ public class PnQuanLyBanHangGUI extends JPanel {
             if (maTbl == key) {
                 int soLuongAdd = Integer.parseInt(tblGioHang.getValueAt(i, 2) + "");
                 soLuongAdd += soLuong;
-                donGia = donGia.replace(",", "");
+                donGia = donGia.replace(",", "").replace(".", "");
                 int donGiaSP = Integer.parseInt(donGia);
 
                 tblGioHang.setValueAt(soLuongAdd, i, 2);
@@ -1059,7 +1061,7 @@ public class PnQuanLyBanHangGUI extends JPanel {
         vec.add(ten);
         vec.add(soLuong);
         vec.add(donGia);
-        donGia = donGia.replace(",", "");
+        donGia = donGia.replace(",", "").replace(".", "");
         int donGiaSP = Integer.parseInt(donGia);
         vec.add(dcf.format(soLuong * donGiaSP));
         // cập nhật lại số lượng trong db
@@ -1101,7 +1103,7 @@ public class PnQuanLyBanHangGUI extends JPanel {
             vec.add(tblGioHang.getValueAt(i, 2));
             vec.add(tblGioHang.getValueAt(i, 3));
             vec.add(tblGioHang.getValueAt(i, 4));
-            tongTien += Integer.parseInt((tblGioHang.getValueAt(i, 4) + "").replace(",", ""));
+            tongTien += Integer.parseInt((tblGioHang.getValueAt(i, 4) + "").replace(",", "").replace(".", ""));
             dsGioHang.add(vec);
         }
 
@@ -1109,6 +1111,20 @@ public class PnQuanLyBanHangGUI extends JPanel {
         hoaDonUI.setVisible(true);
         if (hoaDonUI.checkBanHang) {
             dtmGioHang.setRowCount(0);
+            loadDataListHoaDon(); // Tự động làm mới danh sách hóa đơn
+            
+            // Tự động chuyển qua mục Hóa đơn để List kịp render
+            lblTabbedBanHang.setIcon(tabbedDefault);
+            lblTabbedHoaDon.setIcon(tabbedSelected);
+            cardBanHangGroup.show(pnCardTabBanHang, "2");
+            
+            // Tự động cuộn xuống hóa đơn mới nhất và chọn để hiển thị thông tin
+            int lastIndex = listHoaDon.getModel().getSize() - 1;
+            if (lastIndex >= 0) {
+                listHoaDon.setSelectedIndex(lastIndex);
+                listHoaDon.ensureIndexIsVisible(lastIndex);
+                xuLyHienCTHoaDon();
+            }
         }
     }
 

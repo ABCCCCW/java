@@ -27,8 +27,8 @@ public class KhachHangBUS {
             return listKhachHang;
         try {
             ArrayList<KhachHang> dskh = new ArrayList<>();
-            txtMin = txtMin.replace(",", "");
-            txtMax = txtMax.replace(",", "");
+            txtMin = txtMin.replace(",", "").replace(".", "");
+            txtMax = txtMax.replace(",", "").replace(".", "");
             int min = Integer.parseInt(txtMin);
             int max = Integer.parseInt(txtMax);
             for (KhachHang kh : listKhachHang) {

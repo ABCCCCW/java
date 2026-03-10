@@ -150,7 +150,7 @@ public class ThongKeDAO {
     public double getDoanhThuThang(int thang, int nam) {
         try {
             String thangBD = nam + "-" + thang + "-01";
-            String thangKT = nam + "-" + (thang + 1) + "-01";
+            String thangKT = (thang == 12) ? ((nam + 1) + "-01-01") : (nam + "-" + (thang + 1) + "-01");
             String sql = "SELECT SUM(TongTien) FROM HoaDon WHERE NgayLap BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)";
             PreparedStatement pre = MyConnect.conn.prepareStatement(sql);
             pre.setString(1, thangBD);
@@ -168,7 +168,7 @@ public class ThongKeDAO {
     public double abc(int thang, int nam) {
         try {
             String d1 = nam + "-" + thang + "-01";
-            String d2 = nam + "-" + (thang + 1) + "-01";
+            String d2 = (thang == 12) ? ((nam + 1) + "-01-01") : (nam + "-" + (thang + 1) + "-01");
             String sql = "SELECT SUM(TongTien) FROM HoaDon WHERE NgayLap BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)";
 
             PreparedStatement pre = MyConnect.conn.prepareStatement(sql);

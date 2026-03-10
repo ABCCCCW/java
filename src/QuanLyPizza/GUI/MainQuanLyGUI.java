@@ -245,7 +245,7 @@
     @Override
     public void mouseExited(MouseEvent e) {
         btnDoiMatKhau.setOpaque(false);
-        btnDoiMatKhau.setBackground(new Color(0, 0, 0, 0));
+        btnDoiMatKhau.repaint();
     }
 });
 

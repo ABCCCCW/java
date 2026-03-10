@@ -274,7 +274,7 @@ public class PnQuanLyKhuyenMaiGUI extends JPanel {
             String end = tblKhuyenMai.getValueAt(row, 5) + "";
 
             dieuKien = dieuKien.replace(">", "");
-            dieuKien = dieuKien.replace(",", "");
+            dieuKien = dieuKien.replace(",", "").replace(".", "");
             java.util.Date ngayBD = new Date();
             java.util.Date ngayKT = new Date();
             try {

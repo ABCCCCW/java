@@ -360,7 +360,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
             txtTen.setText(ten);
             txtdonGia.setText(donGia);
             txtsoLuong.setText(soLuong);
-            txtdonViTinh.setText(donViTinh.replace(",", ""));
+            txtdonViTinh.setText(donViTinh.replace(",", "").replace(".", ""));
 
             int flag = 0;
             for (int i = 0; i < cmbLoai.getItemCount(); i++) {

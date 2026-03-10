@@ -10,6 +10,7 @@ public class TransparentPanel extends JPanel {
     }
     
     public TransparentPanel(LayoutManager layout) {
+        this.setOpaque(false);
         this.setLayout(layout);
     }
 

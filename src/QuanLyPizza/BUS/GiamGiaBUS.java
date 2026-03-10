@@ -29,7 +29,7 @@ public class GiamGiaBUS {
     public boolean themMaGiam(String ten, String phanTram, String dieuKien, Date ngayBD, Date ngayKT) {
         ten = ten.trim();
         phanTram = phanTram.replace("%", "");
-        dieuKien = dieuKien.replace(",", "");
+        dieuKien = dieuKien.replace(",", "").replace(".", "");
         if (ten.equals("")) {
             new MyDialog("Hãy nhập tên chương trình khuyến mãi!", MyDialog.ERROR_DIALOG);
             return false;
@@ -66,7 +66,7 @@ public class GiamGiaBUS {
     public boolean suaMaGiam(String ma, String ten, String phanTram, String dieuKien, Date ngayBD, Date ngayKT) {
         ten = ten.trim();
         phanTram = phanTram.replace("%", "");
-        dieuKien = dieuKien.replace(",", "");
+        dieuKien = dieuKien.replace(",", "").replace(".", "");
         if (ma.equals("")) {
             new MyDialog("Chưa chọn mã để sửa!", MyDialog.ERROR_DIALOG);
             return false;

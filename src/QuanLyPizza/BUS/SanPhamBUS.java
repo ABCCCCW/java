@@ -99,7 +99,7 @@ public class SanPhamBUS {
             String[] loaiTmp = loai.split(" - ");
             int maLoai = Integer.parseInt(loaiTmp[0]);
             int soLuongSP = Integer.parseInt(soLuong);
-            donGia = donGia.replace(",", "");
+            donGia = donGia.replace(",", "").replace(".", "");
             int donGiaSP = Integer.parseInt(donGia);
             if (maLoai == 0) {
                 new MyDialog("Vui lòng chọn Loại sản phẩm!", MyDialog.ERROR_DIALOG);
@@ -137,7 +137,7 @@ public class SanPhamBUS {
             String[] loaiTmp = loai.split(" - ");
             int maLoai = Integer.parseInt(loaiTmp[0]);
             int soLuongSP = Integer.parseInt(soLuong);
-            donGia = donGia.replace(",", "");
+            donGia = donGia.replace(",", "").replace(".", "");
             int donGiaSP = Integer.parseInt(donGia);
 
             SanPham sp = new SanPham();
@@ -183,7 +183,7 @@ public class SanPhamBUS {
                 new MyDialog("Chưa chọn sản phẩm để sửa!", MyDialog.ERROR_DIALOG);
                 return false;
             }
-            donGia = donGia.replace(",", "");
+            donGia = donGia.replace(",", "").replace(".", "");
             int maSP = Integer.parseInt(ma);
             String[] loaiTmp = loai.split(" - ");
             int maLoai = Integer.parseInt(loaiTmp[0]);

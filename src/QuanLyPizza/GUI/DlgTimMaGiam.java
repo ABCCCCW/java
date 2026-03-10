@@ -143,7 +143,7 @@ public class DlgTimMaGiam extends JDialog {
                 int phanTram = Integer.parseInt(tblMaGiam.getValueAt(row, 2) + "");
                 String dieuKienst = tblMaGiam.getValueAt(row, 3) + "";
                 dieuKienst = dieuKienst.replace(">", "");
-                dieuKienst = dieuKienst.replace(",", "");
+                dieuKienst = dieuKienst.replace(",", "").replace(".", "");
                 int dieuKien = Integer.parseInt(dieuKienst);
 
                 if(dieuKien > tongTien) {
